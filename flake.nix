@@ -21,7 +21,7 @@
 
     nixosModule.default = (import ./module/libretranslate.nix);
 
-    checks.x86_64-linux.test = pkgs.nixosTest {
+    checks.x86_64-linux.test = builtins.trace "Warning: tests need to download models from teh internet, which doesn't work"  pkgs.nixosTest {
       name = "minimal-test";
 
       nodes.machine = { config, pkgs, ...  }: {
@@ -39,8 +39,8 @@
 
       testScript = ''
         machine.wait_for_unit("libretranslate.service")
+        machine.wait_for_open_port(5000)
         machine.succeed("curl http://127.0.0.1:5000")
-        #machine.fail("su -- root -c 'which firefox'")
       '';
     };
   };
