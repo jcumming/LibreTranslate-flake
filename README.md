@@ -2,6 +2,8 @@
 LibreTranslate Flake
 ====================
 
+Status: Very rough. 
+
 This is a nix flake that runs [LibreTranslate](https://libretranslate.com) as a local service. 
 
 To enable it in a flake.nix:
