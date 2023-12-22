@@ -62,6 +62,7 @@ TODO
     - [ ] perhaps by providing packages for the models? 
     - [ ] local testing
     - [ ] api key testing
+- [ ] update api-key configuration to be a list of attrsets [ { key=<key>; req-limit=<int>; } ]
 - [ ] sample nginx config 
 - [ ] upstream this flake into the LibreTranslate Repo
 

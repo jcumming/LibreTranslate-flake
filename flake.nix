@@ -14,5 +14,6 @@
     formatter.x86_64-linux = pkgs.alejandra;
     packages.x86_64-linux.libretranslate = pkgs.python3Packages.libretranslate;
     checks.x86_64-linux.vm-simple = import ./checks/vm-simple.nix {inherit self pkgs;};
+    checks.x86_64-linux.vm-api_keys = import ./checks/vm-api_keys.nix {inherit self pkgs;};
   };
 }

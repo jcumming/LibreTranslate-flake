@@ -47,7 +47,8 @@ with lib; let
     );
 
   mkAPI_Key_DB_Script = let
-    addKey = x: "${cfg.package}/bin/ltmanage keys --api-keys-db-path ${api-keys-db-path} add \"$(cat ${x})\" ";
+    # usage: ltmanage keys add [-h] [--key KEY] req_limit
+    addKey = x: "${cfg.package}/bin/ltmanage keys --api-keys-db-path ${cfg.api-keys-db-path} add --key \"$(cat ${x})\" 1000";
     addKeys = lib.concatMapStringsSep "\n" (x: addKey x) cfg.api-key-files;
   in
     pkgs.writeScript "mk-api-key-db" ''
@@ -179,8 +180,8 @@ in {
       };
 
       require-api-key-secret = mkOption {
-        type = types.str;
-        default = "";
+        type = types.bool;
+        default = false;
         description = lib.mdDoc "Require use of an API key for programmatic access to the API, unless the client also sends a secret match";
       };
 
@@ -254,7 +255,7 @@ in {
     systemd.services.libretranslate = {
       description = "Libretranslate language translation server. ";
       wantedBy = ["multi-user.target"];
-      after = ["network.target"] ++ lib.optional (cfg.api-keys) "make_libretranslate_api_keys_db.servce";
+      after = ["network.target"];
 
       preStart = ''
         ${mkAPI_Key_DB_Script}
