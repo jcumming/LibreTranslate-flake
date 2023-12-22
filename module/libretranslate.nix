@@ -47,9 +47,10 @@ with lib; let
     );
 
   mkAPI_Key_DB_Script = let
-    addKey = (x: "${cfg.package}/bin/ltmanage keys --api-keys-db-path ${api-keys-db-path} add \"$(cat ${x})\" ");
+    addKey = x: "${cfg.package}/bin/ltmanage keys --api-keys-db-path ${api-keys-db-path} add \"$(cat ${x})\" ";
     addKeys = lib.concatMapStringsSep "\n" (x: addKey x) cfg.api-key-files;
-  in pkgs.writeScript "mk-api-key-db" ''
+  in
+    pkgs.writeScript "mk-api-key-db" ''
       #!${pkgs.bash}/bin/bash
 
       [ -e ${cfg.api-keys-db-path} ] && echo "Warning: recreating ${cfg.api-keys-db-path}"
